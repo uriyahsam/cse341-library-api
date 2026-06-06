@@ -8,6 +8,9 @@ const swaggerSpec = require('./config/swagger');
 
 const app = express();
 
+// Trust Render's proxy — required for secure cookies on Render/Heroku
+app.set('trust proxy', 1);
+
 // Connect to MongoDB
 connectDB();
 
@@ -15,12 +18,18 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'fallback_secret_change_me',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 24 * 60 * 60 * 1000 }
+    cookie: {
+      secure: isProduction,       // HTTPS only in production
+      sameSite: isProduction ? 'none' : 'lax', // 'none' needed for Render's proxy
+      maxAge: 24 * 60 * 60 * 1000
+    }
   })
 );
 
