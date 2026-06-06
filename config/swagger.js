@@ -30,7 +30,7 @@ const options = {
           in: "cookie",
           name: "connect.sid",
           description:
-            "Session cookie obtained after Google OAuth login. Visit /auth/google to authenticate.",
+            "Session cookie obtained after GitHub OAuth login. Visit /auth/github to authenticate.",
         },
       },
       schemas: {

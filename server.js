@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Library Management API',
     docs: '/api-docs',
-    auth: '/auth/google',
+    auth: '/auth/github',
     collections: ['/books', '/authors', '/members', '/loans']
   });
 });
